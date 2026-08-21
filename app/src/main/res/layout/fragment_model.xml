@@ -72,8 +72,7 @@
                 android:layout_height="@dimen/vs_60"
                 android:layout_marginBottom="@dimen/vs_10"
                 android:focusable="false"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/llApi"
                     android:layout_width="@dimen/vs_0"

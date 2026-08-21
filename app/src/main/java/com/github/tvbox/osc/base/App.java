@@ -31,8 +31,6 @@ import me.jessyan.autosize.unit.Subunits;
  * @description:
  */
 public class App extends MultiDexApplication {
-    private static final String DEFAULT_VOD_API_URL = "https://4941.kstore.space/api.json";
-
     private static App instance;
 
     private static P2PClass p;
@@ -71,10 +69,6 @@ public class App extends MultiDexApplication {
         Hawk.put(HawkConfig.PLAYER_IS_LIVE, false);
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
-        }
-        if (!Hawk.contains(HawkConfig.API_URL)) {
-            Hawk.put(HawkConfig.API_URL, DEFAULT_VOD_API_URL);
-            Hawk.put(HawkConfig.LIVE_API_URL, DEFAULT_VOD_API_URL);
         }
         if (!Hawk.contains(HawkConfig.M3U8_PURIFY)) {
             Hawk.put(HawkConfig.M3U8_PURIFY, true);
