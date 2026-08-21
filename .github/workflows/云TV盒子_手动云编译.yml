@@ -100,8 +100,18 @@ jobs:
           test -n "$apksigner_bin"
           for apk in dist/*.apk; do
             aligned="${apk}.aligned"
+            signed="${apk}.signed"
             "$zipalign_bin" -f -p 4 "$apk" "$aligned"
-            mv "$aligned" "$apk"
+            "$apksigner_bin" sign \
+              --ks "$KEYSTORE_PATH" \
+              --ks-pass "pass:$KEYSTORE_PASSWORD" \
+              --ks-key-alias "$KEY_ALIAS" \
+              --key-pass "pass:$KEY_PASSWORD" \
+              --v1-signing-enabled true \
+              --v2-signing-enabled true \
+              --out "$signed" "$aligned"
+            mv "$signed" "$apk"
+            rm -f "$aligned"
             "$apksigner_bin" verify --verbose "$apk"
           done
           ls -lh dist
