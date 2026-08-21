@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId 'com.yyds.cn'
+        applicationId 'com.hsysyy.cn'
         targetSdkVersion 28
         versionCode 1
         versionName '1.0.0'
