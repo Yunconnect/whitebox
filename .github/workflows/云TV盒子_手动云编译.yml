@@ -34,29 +34,31 @@ jobs:
           test -n "${ANDROID_HOME:-}"
           echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-      - name: 生成本次发布签名
+      - name: 恢复稳定发布签名与完整性指纹
         shell: bash
+        env:
+          KEYSTORE_B64: ${{ secrets.WHITEBOX_HARDENING_KEYSTORE_B64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.WHITEBOX_HARDENING_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.WHITEBOX_HARDENING_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.WHITEBOX_HARDENING_KEY_ALIAS }}
+          RELEASE_CERT_SHA256: ${{ secrets.WHITEBOX_RELEASE_CERT_SHA256 }}
         run: |
           set -euo pipefail
-          export KEYSTORE_PATH="$RUNNER_TEMP/whitebox-release.jks"
-          export KEYSTORE_PASSWORD="whitebox-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          keytool -genkeypair -v \
-            -keystore "$KEYSTORE_PATH" \
-            -storepass "$KEYSTORE_PASSWORD" \
-            -alias whitebox \
-            -keypass "$KEYSTORE_PASSWORD" \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 3650 \
-            -dname "CN=whitebox, OU=Yunconnect, O=Yunconnect, L=Shenzhen, ST=Guangdong, C=CN"
+          test -n "$KEYSTORE_B64"
+          test -n "$KEYSTORE_PASSWORD"
+          test -n "$KEY_PASSWORD"
+          test -n "$KEY_ALIAS"
+          test -n "$RELEASE_CERT_SHA256"
+          export KEYSTORE_PATH="$RUNNER_TEMP/whitebox-hardened-release.jks"
+          printf '%s' "$KEYSTORE_B64" | base64 --decode > "$KEYSTORE_PATH"
           cat > app/ci-signing.gradle <<'EOF'
           android {
               signingConfigs {
                   ciRelease {
                       storeFile file(System.getenv('KEYSTORE_PATH'))
                       storePassword System.getenv('KEYSTORE_PASSWORD')
-                      keyAlias 'whitebox'
-                      keyPassword System.getenv('KEYSTORE_PASSWORD')
+                      keyAlias System.getenv('KEY_ALIAS')
+                      keyPassword System.getenv('KEY_PASSWORD')
                       v1SigningEnabled true
                       v2SigningEnabled true
                   }
@@ -71,6 +73,9 @@ jobs:
           echo "apply from: 'ci-signing.gradle'" >> app/build.gradle
           echo "KEYSTORE_PATH=$KEYSTORE_PATH" >> "$GITHUB_ENV"
           echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "RELEASE_CERT_SHA256=$RELEASE_CERT_SHA256" >> "$GITHUB_ENV"
 
       - name: 编译 Python 32 位与 64 位 Release APK
         working-directory: .
@@ -89,6 +94,16 @@ jobs:
             dist/whitebox_云TV盒子_Python32_armeabi-v7a.apk
           cp app/build/outputs/apk/python64/release/whitebox_release-python64.apk \
             dist/whitebox_云TV盒子_Python64_arm64-v8a.apk
+          zipalign_bin=$(find "$ANDROID_HOME/build-tools" -type f -name zipalign -perm -111 | sort -V | tail -n 1)
+          apksigner_bin=$(find "$ANDROID_HOME/build-tools" -type f -name apksigner -perm -111 | sort -V | tail -n 1)
+          test -n "$zipalign_bin"
+          test -n "$apksigner_bin"
+          for apk in dist/*.apk; do
+            aligned="${apk}.aligned"
+            "$zipalign_bin" -f -p 4 "$apk" "$aligned"
+            mv "$aligned" "$apk"
+            "$apksigner_bin" verify --verbose "$apk"
+          done
           ls -lh dist
 
       - name: 上传云TV盒子 Python 双架构 APK

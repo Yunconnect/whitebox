@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName '1.0.0'
         multiDexEnabled true
+        buildConfigField "String", "RELEASE_CERT_SHA256", "\"${System.getenv('RELEASE_CERT_SHA256') ?: ''}\""
         //设置room的Schema的位置
         javaCompileOptions {
             annotationProcessorOptions {
@@ -102,6 +103,7 @@ android {
         }
         release {
             minifyEnabled true
+            shrinkResources true
         }
     }
 
