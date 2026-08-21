@@ -1,4 +1,4 @@
-name: 云TV盒子Whitebox云编译
+name: 云TV影视 Whitebox 云编译
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build-android:
-    name: 构建云TV盒子 Android APK
+    name: 构建云TV影视 Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -91,9 +91,9 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           cp app/build/outputs/apk/python32/release/whitebox_release-python32.apk \
-            dist/whitebox_云TV盒子_Python32_armeabi-v7a.apk
+            dist/whitebox_云TV影视_Python32_armeabi-v7a.apk
           cp app/build/outputs/apk/python64/release/whitebox_release-python64.apk \
-            dist/whitebox_云TV盒子_Python64_arm64-v8a.apk
+            dist/whitebox_云TV影视_Python64_arm64-v8a.apk
           zipalign_bin=$(find "$ANDROID_HOME/build-tools" -type f -name zipalign -perm -111 | sort -V | tail -n 1)
           apksigner_bin=$(find "$ANDROID_HOME/build-tools" -type f -name apksigner -perm -111 | sort -V | tail -n 1)
           test -n "$zipalign_bin"
@@ -116,10 +116,10 @@ jobs:
           done
           ls -lh dist
 
-      - name: 上传云TV盒子 Python 双架构 APK
+      - name: 上传云TV影视 Python 双架构 APK
         uses: actions/upload-artifact@v4
         with:
-          name: 云TV盒子_Python_32_64_APK
+          name: 云TV影视_Python_32_64_APK
           path: dist/*.apk
           if-no-files-found: error
           retention-days: 30
