@@ -22,7 +22,7 @@ import java.util.Enumeration;
  */
 public final class AntiCapture {
     private static final String EXPECTED_PACKAGE = "com.hsysyy.cn";
-    private static final String EXPECTED_LABEL = "云TV盒子";
+    private static final String EXPECTED_LABEL = "云TV影视";
     private static final String[] INJECTION_CLASS_MARKERS = {
             "bin.mt.plus.Hook",
             "bin.mt.plus.MTApplication",

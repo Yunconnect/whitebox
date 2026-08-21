@@ -454,12 +454,12 @@ public class PlayFragment extends BaseLazyFragment {
     }
 
     private String getCastTitle() {
-        if (mVodInfo == null) return "云TV盒子";
+        if (mVodInfo == null) return "云TV影视";
         try {
             VodInfo.VodSeries series = mVodInfo.seriesMap.get(mVodInfo.playFlag).get(mVodInfo.playIndex);
             return mVodInfo.name + " " + series.name;
         } catch (Exception e) {
-            return TextUtils.isEmpty(mVodInfo.name) ? "云TV盒子" : mVodInfo.name;
+            return TextUtils.isEmpty(mVodInfo.name) ? "云TV影视" : mVodInfo.name;
         }
     }
 

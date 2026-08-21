@@ -173,7 +173,7 @@ public class PlayerHelper {
             playersInfo.put(10, "MX播放器");
             playersInfo.put(11, "Reex播放器");
             playersInfo.put(12, "Kodi播放器");
-            playersInfo.put(13, "附近云TV盒子");
+            playersInfo.put(13, "附近云TV影视");
             playersInfo.put(14, "VLC播放器");
             mPlayersInfo = playersInfo;
         }
