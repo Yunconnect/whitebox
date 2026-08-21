@@ -98,7 +98,7 @@ public class BackupDialog extends BaseDialog {
         ArrayList<String> result = new ArrayList<>();
         try {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File file = new File(root + "/tvbox_backup/");
+            File file = new File(root + "/whitebox_backup/");
             File[] list = file.listFiles();
             Arrays.sort(list, new Comparator<File>() {
                 @Override
@@ -127,7 +127,7 @@ public class BackupDialog extends BaseDialog {
     void restore(String dir) {
         try {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File backup = new File(root + "/tvbox_backup/" + dir);
+            File backup = new File(root + "/whitebox_backup/" + dir);
             if (backup.exists()) {
                 File db = new File(backup, "sqlite");
                 if (AppDataManager.restore(db)) {
@@ -178,7 +178,7 @@ public class BackupDialog extends BaseDialog {
     void backup() {
         try {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File file = new File(root + "/tvbox_backup/");
+            File file = new File(root + "/whitebox_backup/");
             if (!file.exists())
                 file.mkdirs();
             Date now = new Date();
@@ -215,7 +215,7 @@ public class BackupDialog extends BaseDialog {
     void delete(String dir) {
         try {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File backup = new File(root + "/tvbox_backup/" + dir);
+            File backup = new File(root + "/whitebox_backup/" + dir);
             FileUtils.recursiveDelete(backup);
             Toast.makeText(getContext(), "删除成功!", Toast.LENGTH_SHORT).show();
         } catch (Throwable e) {

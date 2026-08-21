@@ -8,7 +8,7 @@ import android.util.Log;
  * @description:
  */
 public class LOG {
-    private static String TAG = "TVBox-runtime";
+    private static String TAG = "whitebox-runtime";
     private static final int MAX_LOG_LENGTH = 3000;
 
     public static void e(String msg) {

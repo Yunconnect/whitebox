@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class AppDataManager {
     private static final int DB_FILE_VERSION = 3;
-    private static final String DB_NAME = "tvbox";
+    private static final String DB_NAME = "whitebox";
     private static AppDataManager manager;
     private static AppDataBase dbInstance;
 

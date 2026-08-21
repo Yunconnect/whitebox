@@ -66,7 +66,7 @@ public class LocalFileActivity extends BaseActivity {
 
     private void initRoot() {
         File storage = Environment.getExternalStorageDirectory();
-        File tvBox = new File(storage, "TVBox");
+        File tvBox = new File(storage, "whitebox");
         if (!tvBox.exists()) tvBox.mkdirs();
         rootDir = tvBox.exists() && tvBox.isDirectory() ? tvBox : storage;
     }

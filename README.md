@@ -1,7 +1,7 @@
 <<<<<<<<<<<<<<json接口示例>>>>>>>>>>>>>
-# TVBox
+# whitebox
 
-=== Source Code - Editing the app default settings ===
+=== 云TV盒子默认设置说明 ===
 
     //searchable:搜索开关	        0:关闭 1:启用
     //filterable:首页可选	        0:否 1:是
