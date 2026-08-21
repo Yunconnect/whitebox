@@ -22,6 +22,13 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: 配置 Android SDK 路径
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${ANDROID_HOME:-}"
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: 生成本次发布签名
         shell: bash
         run: |
