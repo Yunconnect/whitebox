@@ -207,7 +207,7 @@ public class CastDeviceDialog extends BaseDialog {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            handleCastResult(false, "云TV盒子投屏失败");
+                            handleCastResult(false, "云TV影视投屏失败");
                         }
                     });
                 }
@@ -223,13 +223,13 @@ public class CastDeviceDialog extends BaseDialog {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            handleCastResult(ok, ok ? "" : "云TV盒子投屏失败");
+                            handleCastResult(ok, ok ? "" : "云TV影视投屏失败");
                         }
                     });
                 }
             });
         } catch (Exception e) {
-            handleCastResult(false, "云TV盒子投屏失败");
+            handleCastResult(false, "云TV影视投屏失败");
         }
     }
 
@@ -277,7 +277,7 @@ public class CastDeviceDialog extends BaseDialog {
             TextView name = holder.itemView.findViewById(R.id.tvDeviceName);
             TextView ip = holder.itemView.findViewById(R.id.tvDeviceIp);
             name.setText(device.getName());
-            ip.setText((device.getType() == CastDevice.TYPE_DLNA ? "DLNA  " : "云TV盒子  ") + device.getId());
+            ip.setText((device.getType() == CastDevice.TYPE_DLNA ? "DLNA  " : "云TV影视  ") + device.getId());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

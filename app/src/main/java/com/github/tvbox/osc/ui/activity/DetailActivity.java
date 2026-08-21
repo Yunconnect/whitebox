@@ -854,7 +854,7 @@ public class DetailActivity extends BaseActivity {
                     mVideo = absXml.movie.videoList.get(0);
                     mVideo.id = vodId;
                     if (TextUtils.isEmpty(mVideo.name))mVideo.name = vod_name;
-                    if (TextUtils.isEmpty(mVideo.name))mVideo.name = "云TV盒子";
+                    if (TextUtils.isEmpty(mVideo.name))mVideo.name = "云TV影视";
                     vodInfo = new VodInfo();
                     if((mVideo.pic==null || mVideo.pic.isEmpty()) && !vod_picture.isEmpty()){
                         mVideo.pic=vod_picture;

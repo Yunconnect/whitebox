@@ -13,7 +13,7 @@ public class CastDevice {
     private final String name;
 
     public static CastDevice tvbox(String host) {
-        return new CastDevice(TYPE_TVBOX, host, "云TV盒子 " + host);
+        return new CastDevice(TYPE_TVBOX, host, "云TV影视 " + host);
     }
 
     public static CastDevice dlna(RemoteDevice device) {
@@ -41,7 +41,7 @@ public class CastDevice {
     }
 
     public String getDisplayName() {
-        return (type == TYPE_DLNA ? "DLNA  " : "云TV盒子  ") + name;
+        return (type == TYPE_DLNA ? "DLNA  " : "云TV影视  ") + name;
     }
 
     @Override
