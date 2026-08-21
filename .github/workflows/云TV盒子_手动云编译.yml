@@ -1,4 +1,4 @@
-name: 云TV盒子 - 手动云编译
+name: 云TV盒子Whitebox云编译
 
 on:
   workflow_dispatch:
