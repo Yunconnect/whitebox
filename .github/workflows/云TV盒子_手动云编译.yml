@@ -22,6 +22,11 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: 安装 Python 3.8 构建环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
       - name: 配置 Android SDK 路径
         shell: bash
         run: |
@@ -67,28 +72,29 @@ jobs:
           echo "KEYSTORE_PATH=$KEYSTORE_PATH" >> "$GITHUB_ENV"
           echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
 
-      - name: 编译 Java 双架构 Release APK
+      - name: 编译 Python 32 位与 64 位 Release APK
         working-directory: .
         run: |
+          set -euo pipefail
           chmod +x gradlew
-          ./gradlew :app:assembleJavaRelease --build-cache --parallel --daemon --warning-mode all
+          PYTHON_BUILD_EXECUTABLE="${pythonLocation}/bin/python" \
+            ./gradlew :app:assemblePython32Release :app:assemblePython64Release --build-cache --parallel --daemon --warning-mode all
 
-      - name: 准备发布包
+      - name: 准备 Python 双架构发布包
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
-          mapfile -t apks < <(find app/build/outputs/apk -type f -name '*release*.apk' | sort)
-          test "${#apks[@]}" -gt 0
-          for apk in "${apks[@]}"; do
-            cp "$apk" "dist/whitebox_云TV盒子_$(basename "$apk")"
-          done
+          cp app/build/outputs/apk/python32/release/whitebox_release-python32.apk \
+            dist/whitebox_云TV盒子_Python32_armeabi-v7a.apk
+          cp app/build/outputs/apk/python64/release/whitebox_release-python64.apk \
+            dist/whitebox_云TV盒子_Python64_arm64-v8a.apk
           ls -lh dist
 
-      - name: 上传云TV盒子 Android APK
+      - name: 上传云TV盒子 Python 双架构 APK
         uses: actions/upload-artifact@v4
         with:
-          name: 云TV盒子_Android_APK
+          name: 云TV盒子_Python_32_64_APK
           path: dist/*.apk
           if-no-files-found: error
           retention-days: 30
